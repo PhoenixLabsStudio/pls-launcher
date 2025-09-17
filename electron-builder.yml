@@ -7,6 +7,7 @@ win:
   target:
     - nsis
   artifactName: "pls-launcher-${version}-setup.exe"
+  publisherName: [Phoenix Labs Studio]
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true

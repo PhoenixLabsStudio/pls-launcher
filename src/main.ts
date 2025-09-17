@@ -47,16 +47,45 @@ function assertOfficialBuild() {
   }
 }
 
-// В самом начале onReady:
-app.whenReady().then(() => {
-  assertOfficialBuild();
-
 let win: BrowserWindow | null = null;
 
 function getGamesJsonPath(): string {
   const base = app.isPackaged ? process.resourcesPath : app.getAppPath();
   return path.join(base, 'resources', 'games.json');
 }
+
+function assertOfficialBuild() {
+  try {
+    const base = process.resourcesPath; // в проде
+    // в dev окружении можно читать из ./resources тоже:
+    const pJson = path.join(base, 'resources', 'official.json');
+    const pSig  = path.join(base, 'resources', 'official.sig');
+
+    const json = fs.readFileSync(pJson, 'utf8');
+    const sig  = fs.readFileSync(pSig, 'utf8');
+
+    const verify = crypto.createVerify('RSA-SHA256');
+    verify.update(json);
+    verify.end();
+    const ok = verify.verify(PUBLIC_KEY_PEM, Buffer.from(sig, 'base64'));
+    if (!ok) throw new Error('signature invalid');
+
+    const payload = JSON.parse(json);
+    if (payload.version !== app.getVersion()) {
+      throw new Error('version mismatch');
+    }
+  } catch (e:any) {
+    dialog.showErrorBox(
+      'Неофициальная сборка',
+      'Этот экземпляр лаунчера собран неофициально. Скачайте официальный релиз с GitHub Releases.'
+    );
+    app.exit(1);
+  }
+}
+
+app.whenReady().then(() => {
+  // 🔒 проверка — до всего
+  assertOfficialBuild();
 
 function createWindow() {
   win = new BrowserWindow({
@@ -81,6 +110,7 @@ function createWindow() {
 function initAutoUpdater() {
   if (!app.isPackaged) return; // в dev не проверяем
 
+  autoUpdater.allowPrerelease = true;
   autoUpdater.autoDownload = true;      // автоматически скачивать
   autoUpdater.autoInstallOnAppQuit = true;
 
@@ -88,7 +118,6 @@ function initAutoUpdater() {
     if (win && !win.isDestroyed()) win.webContents.send(`update:${event}`, payload);
   };
 
-  autoUpdater.on('checking-for-update', () => send('status', { state: 'checking' }));
   autoUpdater.on('update-available', (info: UpdateInfo) => send('available', info));
   autoUpdater.on('update-not-available', (info: UpdateInfo) => send('not-available', info));
   autoUpdater.on('error', (err: Error) => send('error', { message: (err as any)?.message || String(err) }));
@@ -186,5 +215,4 @@ ipcMain.handle('open:url', async (_evt, url: string) => {
   } catch (err) {
     return { ok: false, error: String(err) };
   }
-
 });

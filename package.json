@@ -1,6 +1,6 @@
 {
   "name": "pls-launcher",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Phoenix Labs Launcher",
   "author": "Phoenix Labs Studio",
   "license": "MIT",
@@ -39,7 +39,10 @@
       "resources/**/*"
     ],
     "extraResources": [
-      { "from": "resources", "to": "resources" }
+      {
+        "from": "resources",
+        "to": "resources"
+      }
     ],
     "publish": [
       {
@@ -52,7 +55,9 @@
     "win": {
       "target": "nsis",
       "icon": "build/icon.ico",
-      "publisherName": ["Phoenix Labs Studio"]
+      "publisherName": [
+        "Phoenix Labs Studio"
+      ]
     },
     "nsis": {
       "oneClick": false,
@@ -60,6 +65,4 @@
       "shortcutName": "Phoenix Labs Launcher"
     }
   }
-
 }
-
