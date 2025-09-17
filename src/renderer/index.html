@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Phoenix Labs Launcher</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="appbar">
+      <img src="../assets/icon.png" alt="logo" class="logo" />
+      <h1>Phoenix Labs Launcher</h1>
+    </header>
+
+    <main id="app">
+      <p><a id="discord" href="#">Discord</a></p>
+	  
+	  <div id="updater" style="display:none" class="updater">
+		<span id="updater-text">Проверяем обновления…</span>
+		<button id="updater-btn" class="btn small">Ок</button>
+	  </div>
+
+      <div id="status">Загружаем игры…</div>
+      <div id="games" class="list"></div>
+    </main>
+
+    <script src="./index.js"></script>
+  </body>
+</html>

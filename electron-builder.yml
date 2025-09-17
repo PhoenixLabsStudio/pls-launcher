@@ -1,0 +1,17 @@
+appId: studio.phoenix.launcher
+productName: Phoenix Labs Launcher
+files:
+  - dist/**
+asar: true
+win:
+  target:
+    - nsis
+  artifactName: "pls-launcher-${version}-setup.exe"
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+extraResources:
+  - from: dist/resources
+    to: resources
+  - from: dist/assets
+    to: assets
