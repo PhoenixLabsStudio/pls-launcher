@@ -45,13 +45,13 @@
       {
         "provider": "github",
         "owner": "PhoenixLabsStudio",
-        "repo": "pls-launcher"
+        "repo": "pls-launcher",
         "artifactName": "Phoenix.Labs.Launcher.Setup.${version}.exe"
       }
     ],
     "win": {
       "target": "nsis",
-      "icon": "build/icon.ico"
+      "icon": "build/icon.ico",
       "publisherName": ["Phoenix Labs Studio"]
     },
     "nsis": {
@@ -62,3 +62,4 @@
   }
 
 }
+
