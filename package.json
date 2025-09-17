@@ -17,7 +17,7 @@
     "dist": "npm run prep && electron-builder -w"
   },
   "dependencies": {
-    "electron-updater": "^6.3.8"
+    "electron-updater": "^6.6.2"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
@@ -27,7 +27,7 @@
     "typescript": "^5.5.4"
   },
   "build": {
-    "appId": "com.phoenixlabs.launcher",
+    "appId": "studio.phoenixlabs.launcher",
     "productName": "Phoenix Labs Launcher",
     "directories": {
       "buildResources": "build",
@@ -46,11 +46,13 @@
         "provider": "github",
         "owner": "PhoenixLabsStudio",
         "repo": "pls-launcher"
+        "artifactName": "Phoenix.Labs.Launcher.Setup.${version}.exe"
       }
     ],
     "win": {
       "target": "nsis",
       "icon": "build/icon.ico"
+      "publisherName": ["Phoenix Labs Studio"]
     },
     "nsis": {
       "oneClick": false,
@@ -58,4 +60,5 @@
       "shortcutName": "Phoenix Labs Launcher"
     }
   }
+
 }
