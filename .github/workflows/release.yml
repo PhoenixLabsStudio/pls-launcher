@@ -1,0 +1,28 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-win:
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      RELEASE_SIGN_KEY: ${{ secrets.RELEASE_SIGN_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      # создаём подпись официальной сборки
+      - run: node sign.js
+
+      # сборка и публикация ассетов на GitHub Releases (по тегу)
+      - run: npm run dist
