@@ -3,9 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const list = document.getElementById('games');
 
   const candidates = [
-    '../resources/games.json',     // dist/renderer -> dist/resources
-    '../../resources/games.json',  // на всякий
-    'resources/games.json'         // на dev/нестандартных сборках
+    '../resources/games.json',
+    '../../resources/games.json',
+    'resources/games.json'
   ];
 
   async function loadJson(path) {
@@ -45,11 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const run = document.createElement('button');
       run.textContent = 'Запустить';
       run.onclick = async () => {
-        const payload = {
-          exePath: g.exePath,
-          cwd: g.cwd || undefined,
-          args: Array.isArray(g.args) ? g.args : []
-        };
+        if (!window.api?.runGame) return alert('API не инициализировалось');
+        const payload = { exePath: g.exePath, cwd: g.cwd || undefined, args: Array.isArray(g.args) ? g.args : [] };
         const res = await window.api.runGame(payload);
         if (!res?.ok) alert('Ошибка запуска: ' + (res?.error || 'unknown'));
       };
@@ -57,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const open = document.createElement('button');
       open.textContent = 'Открыть папку';
       open.onclick = async () => {
+        if (!window.api?.openFolder) return alert('API не инициализировалось');
         const dir = g.cwd || (g.exePath ? g.exePath.replace(/\\[^\\]+$/, '') : '');
         const res = await window.api.openFolder(dir);
         if (!res?.ok) alert('Ошибка открытия: ' + (res?.error || 'unknown'));

@@ -1,12 +1,9 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('api', {
-  // игры
-  getGames: () => ipcRenderer.invoke('games:get'),
-  launchGame: (game: { exePath: string; args?: string[]; workDir?: string }) =>
-    ipcRenderer.invoke('game:launch', game),
-  openFolder: (folderPath: string) => ipcRenderer.invoke('open:folder', folderPath),
-  openUrl: (url: string) => ipcRenderer.invoke('open:url', url),
+  runGame: (payload: { exePath: string; cwd?: string; args?: string[] }) =>
+    ipcRenderer.invoke('run:game', payload),
+  openFolder: (dir: string) => ipcRenderer.invoke('open:folder', dir),
 
   // обновления
   checkForUpdates: () => ipcRenderer.invoke('update:check'),
@@ -33,14 +30,8 @@ contextBridge.exposeInMainWorld('api', {
 declare global {
   interface Window {
     api: {
-      getGames: () => Promise<any>;
-      launchGame: (game: { exePath: string; args?: string[]; workDir?: string }) => Promise<any>;
-      openFolder: (folderPath: string) => Promise<any>;
-      openUrl: (url: string) => Promise<any>;
-
-      checkForUpdates: () => Promise<any>;
-      installUpdate: () => Promise<any>;
-      onUpdate: (cb: (evt: { type: string; payload?: any }) => void) => () => void;
+      runGame: (payload: { exePath: string; cwd?: string; args?: string[] }) => Promise<{ ok: boolean; error?: string }>;
+      openFolder: (dir: string) => Promise<{ ok: boolean; error?: string }>;
     };
   }
 }
