@@ -14,7 +14,11 @@
     "prep": "npm run build && npm run copy:renderer && npm run copy:resources && npm run copy:assets",
     "start": "npm run prep && electron .",
     "dist": "npm run prep && electron-builder -w",
-    "release:gh": "npm run clean && npm run prep && electron-builder -w --publish always"
+    "release": "npm run clean && npm run prep && electron-builder -w --publish always",
+	"bump:patch": "npm version patch -m \"chore: bump to %s\"",
+	"bump:minor": "npm version minor -m \"chore: bump to %s\"",
+	"release:patch": "npm run bump:patch && npm run release && git push origin main --follow-tags",
+	"release:minor": "npm run bump:minor && npm run release && git push origin main --follow-tags"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
