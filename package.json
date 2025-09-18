@@ -1,6 +1,6 @@
 {
   "name": "pls-launcher",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "private": true,
   "description": "Phoenix Labs Launcher",
   "author": "Phoenix Labs Studio",
@@ -15,10 +15,10 @@
     "start": "npm run prep && electron .",
     "dist": "npm run prep && electron-builder -w",
     "release": "npm run clean && npm run prep && electron-builder -w --publish always",
-	"bump:patch": "npm version patch -m \"chore: bump to %s\"",
-	"bump:minor": "npm version minor -m \"chore: bump to %s\"",
-	"release:patch": "npm run bump:patch && npm run release && git push origin main --follow-tags",
-	"release:minor": "npm run bump:minor && npm run release && git push origin main --follow-tags"
+    "bump:patch": "npm version patch -m \"chore: bump to %s\"",
+    "bump:minor": "npm version minor -m \"chore: bump to %s\"",
+    "release:patch": "npm run bump:patch && npm run release && git push origin main --follow-tags",
+    "release:minor": "npm run bump:minor && npm run release && git push origin main --follow-tags"
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
