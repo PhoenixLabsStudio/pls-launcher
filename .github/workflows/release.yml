@@ -1,22 +1,45 @@
-name: Release
+name: Build & Publish (Windows)
 
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*'            # публикуем только по пушу тега v1.0.2 и т.п.
+
+permissions:
+  contents: write       # чтобы electron-builder мог опубликовать в Releases
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-win:
     runs-on: windows-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      RELEASE_SIGN_KEY: ${{ secrets.RELEASE_SIGN_KEY }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
           cache: 'npm'
-      - run: npm ci
-      - run: node sign.js           # <-- создаёт resources/official.json + official.sig
-      - run: npm run dist           # <-- electron-builder зальёт ассеты на релиз по тегу
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Build & publish (electron-builder)
+        run: npm run dist
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # встроенный токен, ничего добавлять не нужно
+
+      # Если хочешь дублировать артефакты как artifacts (необязательно)
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: win-build
+          path: |
+            release/*.exe
+            release/*.yml
+            release/*.blockmap

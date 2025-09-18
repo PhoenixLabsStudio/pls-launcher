@@ -1,4 +1,4 @@
-appId: studio.phoenix.launcher
+appId: com.phoenixlabs.launcher
 productName: Phoenix Labs Launcher
 files:
   - dist/**
@@ -7,7 +7,7 @@ win:
   target:
     - nsis
   artifactName: "pls-launcher-${version}-setup.exe"
-  publisherName: [Phoenix Labs Studio]
+  publisherName: "Phoenix Labs Studio"
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
@@ -16,3 +16,12 @@ extraResources:
     to: resources
   - from: dist/assets
     to: assets
+directories:
+  output: release
+  buildResources: build
+publish:
+  - provider: github
+    owner: PhoenixLabsStudio
+    repo: pls-launcher
+    releaseType: draft
+    vPrefixedTagName: true

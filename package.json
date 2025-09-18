@@ -4,6 +4,7 @@
   "description": "Phoenix Labs Launcher",
   "author": "Phoenix Labs Studio",
   "license": "MIT",
+  "repository": "https://github.com/PhoenixLabsStudio/pls-launcher",
   "type": "commonjs",
   "main": "dist/main.js",
   "scripts": {
@@ -13,30 +14,40 @@
     "copy:resources": "node -e \"const fs=require('fs');if(fs.existsSync('resources'))fs.cpSync('resources','dist/resources',{recursive:true,force:true});else{fs.mkdirSync('dist/resources',{recursive:true});fs.writeFileSync('dist/resources/games.json','[]')}\"",
     "copy:assets": "node -e \"const fs=require('fs'),p=require('path');fs.mkdirSync('dist/assets',{recursive:true});['assets/icon.png','build/icon.ico'].forEach(f=>{if(fs.existsSync(f)) fs.copyFileSync(f,'dist/assets/'+p.basename(f))})\"",
     "prep": "npm run build && npm run copy:renderer && npm run copy:resources && npm run copy:assets",
+    "sign": "node tools/sign.js",
     "start": "npm run prep && electron .",
-    "dist": "npm run prep && electron-builder -w"
+    "release": "node tools/release.js",
+    "release:minor": "node tools/release.js --level=minor",
+    "release:major": "node tools/release.js --level=major",
+    "release:no-git": "node tools/release.js --no-git",
+    "dist": "npm run prep && electron-builder -w",
+    "release:gh": "npm run clean && npm run prep && electron-builder -w --publish always"
   },
   "dependencies": {
-    "electron-updater": "^6.6.2"
+    "electron-updater": "^6.3.8"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
     "electron": "^31.0.2",
     "electron-builder": "^24.13.3",
+    "semver": "^7.6.2",
     "rimraf": "^5.0.5",
-    "typescript": "^5.5.4"
+    "typescript": "^5.6.2"
   },
   "build": {
     "appId": "studio.phoenixlabs.launcher",
     "productName": "Phoenix Labs Launcher",
     "directories": {
       "buildResources": "build",
-      "output": "release"
+      "output": "dist"
     },
     "files": [
       "dist/**/*",
-      "assets/**/*",
-      "resources/**/*"
+      "resources/**/*",
+      "assets/icon.png",
+      "build/icon.ico",
+      "package.json",
+      "!**/*.map"
     ],
     "extraResources": [
       {
@@ -49,18 +60,24 @@
         "provider": "github",
         "owner": "PhoenixLabsStudio",
         "repo": "pls-launcher",
-        "artifactName": "Phoenix.Labs.Launcher.Setup.${version}.exe"
+        "releaseType": "prerelease",
+        "vPrefixedTagName": true
       }
     ],
     "win": {
-      "target": "nsis",
+      "target": [
+        "nsis"
+      ],
       "icon": "build/icon.ico",
       "publisherName": [
         "Phoenix Labs Studio"
       ]
     },
+    "asar": true,
     "nsis": {
       "oneClick": false,
+      "perMachine": false,
+      "artifactName": "${productName}-Setup-${version}.${ext}",
       "allowToChangeInstallationDirectory": true,
       "shortcutName": "Phoenix Labs Launcher"
     }

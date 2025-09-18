@@ -1,0 +1,30 @@
+# Node / logs
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Build artifacts
+dist/
+release/
+*.exe
+*.blockmap
+*.yml
+*.zip
+*.7z
+*.dmg
+*.AppImage
+
+# Local env / secrets
+.env
+release_sign_key.pem
+release_sign_pub.pem
+resources/official.*
+
+# OS / IDE trash
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/

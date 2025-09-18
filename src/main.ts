@@ -47,45 +47,17 @@ function assertOfficialBuild() {
   }
 }
 
+app.whenReady().then(() => {
+  // 🔒 проверка — до всего
+  assertOfficialBuild();
+})
+
 let win: BrowserWindow | null = null;
 
 function getGamesJsonPath(): string {
   const base = app.isPackaged ? process.resourcesPath : app.getAppPath();
   return path.join(base, 'resources', 'games.json');
 }
-
-function assertOfficialBuild() {
-  try {
-    const base = process.resourcesPath; // в проде
-    // в dev окружении можно читать из ./resources тоже:
-    const pJson = path.join(base, 'resources', 'official.json');
-    const pSig  = path.join(base, 'resources', 'official.sig');
-
-    const json = fs.readFileSync(pJson, 'utf8');
-    const sig  = fs.readFileSync(pSig, 'utf8');
-
-    const verify = crypto.createVerify('RSA-SHA256');
-    verify.update(json);
-    verify.end();
-    const ok = verify.verify(PUBLIC_KEY_PEM, Buffer.from(sig, 'base64'));
-    if (!ok) throw new Error('signature invalid');
-
-    const payload = JSON.parse(json);
-    if (payload.version !== app.getVersion()) {
-      throw new Error('version mismatch');
-    }
-  } catch (e:any) {
-    dialog.showErrorBox(
-      'Неофициальная сборка',
-      'Этот экземпляр лаунчера собран неофициально. Скачайте официальный релиз с GitHub Releases.'
-    );
-    app.exit(1);
-  }
-}
-
-app.whenReady().then(() => {
-  // 🔒 проверка — до всего
-  assertOfficialBuild();
 
 function createWindow() {
   win = new BrowserWindow({
