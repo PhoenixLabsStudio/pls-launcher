@@ -18,9 +18,6 @@ release/
 
 # Local env / secrets
 .env
-release_sign_key.pem
-release_sign_pub.pem
-resources/official.*
 
 # OS / IDE trash
 .DS_Store

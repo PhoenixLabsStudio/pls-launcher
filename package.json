@@ -1,11 +1,9 @@
 {
   "name": "pls-launcher",
-  "version": "1.0.3",
+  "version": "1.0.4",
+  "private": true,
   "description": "Phoenix Labs Launcher",
   "author": "Phoenix Labs Studio",
-  "license": "MIT",
-  "repository": "https://github.com/PhoenixLabsStudio/pls-launcher",
-  "type": "commonjs",
   "main": "dist/main.js",
   "scripts": {
     "clean": "rimraf dist release",
@@ -14,72 +12,54 @@
     "copy:resources": "node -e \"const fs=require('fs');if(fs.existsSync('resources'))fs.cpSync('resources','dist/resources',{recursive:true,force:true});else{fs.mkdirSync('dist/resources',{recursive:true});fs.writeFileSync('dist/resources/games.json','[]')}\"",
     "copy:assets": "node -e \"const fs=require('fs'),p=require('path');fs.mkdirSync('dist/assets',{recursive:true});['assets/icon.png','build/icon.ico'].forEach(f=>{if(fs.existsSync(f)) fs.copyFileSync(f,'dist/assets/'+p.basename(f))})\"",
     "prep": "npm run build && npm run copy:renderer && npm run copy:resources && npm run copy:assets",
-    "sign": "node tools/sign.js",
     "start": "npm run prep && electron .",
-    "release": "node tools/release.js",
-    "release:minor": "node tools/release.js --level=minor",
-    "release:major": "node tools/release.js --level=major",
-    "release:no-git": "node tools/release.js --no-git",
     "dist": "npm run prep && electron-builder -w",
     "release:gh": "npm run clean && npm run prep && electron-builder -w --publish always"
   },
-  "dependencies": {
-    "electron-updater": "^6.3.8"
-  },
   "devDependencies": {
-    "@types/node": "^20.12.12",
-    "electron": "^31.0.2",
+    "@types/node": "^20.11.30",
+    "electron": "^31.7.7",
     "electron-builder": "^24.13.3",
-    "semver": "^7.6.2",
     "rimraf": "^5.0.5",
-    "typescript": "^5.6.2"
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
   },
   "build": {
-    "appId": "studio.phoenixlabs.launcher",
+    "appId": "com.phoenixlabs.launcher",
     "productName": "Phoenix Labs Launcher",
     "directories": {
-      "buildResources": "build",
       "output": "dist"
     },
     "files": [
-      "dist/**/*",
-      "resources/**/*",
-      "assets/icon.png",
-      "build/icon.ico",
-      "package.json",
-      "!**/*.map"
+      "dist/**",
+      "!dist/win-unpacked/**"
     ],
     "extraResources": [
       {
-        "from": "resources",
+        "from": "dist/resources",
         "to": "resources"
       }
     ],
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "PhoenixLabsStudio",
-        "repo": "pls-launcher",
-        "releaseType": "prerelease",
-        "vPrefixedTagName": true
-      }
-    ],
     "win": {
-      "target": [
-        "nsis"
-      ],
       "icon": "build/icon.ico",
+      "target": "nsis",
       "publisherName": [
         "Phoenix Labs Studio"
       ]
     },
-    "asar": true,
     "nsis": {
       "oneClick": false,
-      "perMachine": false,
-      "artifactName": "${productName}-Setup-${version}.${ext}",
       "allowToChangeInstallationDirectory": true,
-      "shortcutName": "Phoenix Labs Launcher"
-    }
+      "perMachine": false
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "PhoenixLabsStudio",
+        "repo": "pls-launcher"
+      }
+    ]
   }
 }

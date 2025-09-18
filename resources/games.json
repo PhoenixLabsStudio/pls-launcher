@@ -1,18 +1,30 @@
 [
   {
     "id": "fivem",
-    "name": "FiveM",
-    "exePath": "C:/PhoenixLabsStudio/servers/fivem/run.cmd",
-    "folder": "C:/PhoenixLabsStudio/servers/fivem",
-    "args": [],
-    "visible": true
+    "title": "FiveM",
+    "exePath": "C:\\PhoenixLabsStudio\\servers\\fivem\\FXServer.exe",
+    "cwd": "C:\\PhoenixLabsStudio\\servers\\fivem",
+    "args": []
   },
   {
     "id": "samp",
-    "name": "SA:MP",
-    "exePath": "C:/PhoenixLabsStudio/servers/samp/samp-server.exe",
-    "folder": "C:/PhoenixLabsStudio/servers/samp",
-    "args": ["-c", "server.cfg"],
-    "visible": true
+    "title": "SA:MP",
+    "exePath": "C:\\PhoenixLabsStudio\\servers\\samp\\samp-server.exe",
+    "cwd": "C:\\PhoenixLabsStudio\\servers\\samp",
+    "args": []
+  },
+  {
+    "id": "crmp",
+    "title": "CRMP",
+    "exePath": "C:\\PhoenixLabsStudio\\servers\\crmp\\crmp-server.exe",
+    "cwd": "C:\\PhoenixLabsStudio\\servers\\crmp",
+    "args": []
+  },
+  {
+    "id": "arma3",
+    "title": "Arma 3",
+    "exePath": "C:\\PhoenixLabsStudio\\servers\\arma3\\arma3server_x64.exe",
+    "cwd": "C:\\PhoenixLabsStudio\\servers\\arma3",
+    "args": []
   }
 ]
