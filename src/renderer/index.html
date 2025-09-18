@@ -1,29 +1,77 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Phoenix Labs Launcher</title>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <header class="appbar">
-      <img src="../assets/icon.png" alt="logo" class="logo" />
-      <h1>Phoenix Labs Launcher</h1>
-    </header>
+<head>
+  <meta charset="utf-8" />
+  <title>Phoenix Labs Launcher</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';"/>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="logo" src="../assets/icon.png" alt="Phoenix Labs Logo">
+      <div class="title">
+        <div class="name">Phoenix Labs Launcher</div>
+        <div id="version" class="sub"></div>
+      </div>
+    </div>
+    <div class="actions">
+      <a id="discordLink" class="link">Discord</a>
+      <button id="btnSettings" class="btn ghost">⚙️ Настройки</button>
+    </div>
+  </header>
 
-    <main id="app">
-      <p><a id="discord" href="#">Discord</a></p>
-	  
-	  <div id="updater" style="display:none" class="updater">
-		<span id="updater-text">Проверяем обновления…</span>
-		<button id="updater-btn" class="btn small">Ок</button>
-	  </div>
+  <main class="container">
+    <section id="games" class="cards"></section>
+  </main>
 
-      <div id="status">Загружаем игры…</div>
-      <div id="games" class="list"></div>
-    </main>
+  <dialog id="dlgSettings" class="modal">
+    <form method="dialog" class="panel">
+      <h3>Настройки</h3>
 
-    <script src="./index.js"></script>
-  </body>
+      <div class="row">
+        <label>FiveM.exe</label>
+        <div class="grow">
+          <input id="path_fivem" type="text" placeholder="C:\Users\...\AppData\Local\FiveM\FiveM.exe"/>
+        </div>
+        <button data-pick="fivem" class="btn">Обзор…</button>
+      </div>
+
+      <div class="row">
+        <label>SA:MP (gta_sa.exe)</label>
+        <div class="grow"><input id="path_samp" type="text"/></div>
+        <button data-pick="samp" class="btn">Обзор…</button>
+      </div>
+
+      <div class="row">
+        <label>CRMP (gta_sa.exe)</label>
+        <div class="grow"><input id="path_crmp" type="text"/></div>
+        <button data-pick="crmp" class="btn">Обзор…</button>
+      </div>
+
+      <div class="row">
+        <label>Arma 3 (arma3_x64.exe)</label>
+        <div class="grow"><input id="path_arma3" type="text"/></div>
+        <button data-pick="arma3" class="btn">Обзор…</button>
+      </div>
+
+      <div class="row">
+        <label>Тема</label>
+        <select id="theme">
+          <option value="dark">Тёмная</option>
+          <option value="neon">Неон</option>
+        </select>
+      </div>
+
+      <div class="row right gap">
+        <button id="btnAuto" class="btn ghost" value="auto">Автопоиск</button>
+        <span class="grow"></span>
+        <button class="btn ghost" value="cancel">Отмена</button>
+        <button id="btnSave" class="btn primary" value="ok">Сохранить</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="./index.js"></script>
+</body>
 </html>

@@ -1,28 +1,28 @@
 [
   {
     "id": "fivem",
-    "title": "FiveM",
+    "name": "FiveM",
     "exePath": "C:\\PhoenixLabsStudio\\servers\\fivem\\FXServer.exe",
     "cwd": "C:\\PhoenixLabsStudio\\servers\\fivem",
     "args": []
   },
   {
     "id": "samp",
-    "title": "SA:MP",
+    "name": "SA:MP",
     "exePath": "C:\\PhoenixLabsStudio\\servers\\samp\\samp-server.exe",
     "cwd": "C:\\PhoenixLabsStudio\\servers\\samp",
     "args": []
   },
   {
     "id": "crmp",
-    "title": "CRMP",
+    "name": "CRMP",
     "exePath": "C:\\PhoenixLabsStudio\\servers\\crmp\\crmp-server.exe",
     "cwd": "C:\\PhoenixLabsStudio\\servers\\crmp",
     "args": []
   },
   {
     "id": "arma3",
-    "title": "Arma 3",
+    "name": "Arma 3",
     "exePath": "C:\\PhoenixLabsStudio\\servers\\arma3\\arma3server_x64.exe",
     "cwd": "C:\\PhoenixLabsStudio\\servers\\arma3",
     "args": []

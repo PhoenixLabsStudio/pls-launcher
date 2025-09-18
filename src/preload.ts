@@ -1,9 +1,15 @@
 import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('api', {
-  runGame: (payload: { exePath: string; cwd?: string; args?: string[] }) =>
-    ipcRenderer.invoke('run:game', payload),
-  openFolder: (dir: string) => ipcRenderer.invoke('open:folder', dir),
+	getVersion: () => ipcRenderer.invoke('app:version'),
+	loadCatalog: () => ipcRenderer.invoke('catalog:load'),
+	getConfig: () => ipcRenderer.invoke('settings:get'),
+	setConfig: (partial: any) => ipcRenderer.invoke('settings:set', partial),
+	autodetect: () => ipcRenderer.invoke('settings:autodetect'),
+	pickExe: () => ipcRenderer.invoke('dialog:pickExe'),
+	runGame: (id: 'fivem'|'samp'|'crmp'|'arma3') => ipcRenderer.invoke('game:run', id),
+	openFolder: (id: 'fivem'|'samp'|'crmp'|'arma3') => ipcRenderer.invoke('game:openFolder', id),
+	openDiscord: () => ipcRenderer.invoke('open:discord'),
 
   // обновления
   checkForUpdates: () => ipcRenderer.invoke('update:check'),

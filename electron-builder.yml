@@ -23,5 +23,5 @@ publish:
   - provider: github
     owner: PhoenixLabsStudio
     repo: pls-launcher
-    releaseType: draft
+    releaseType: prerelease
     vPrefixedTagName: true
